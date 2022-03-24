@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "migrate": "./node_modules/sequelize-cli/lib/sequelize db:migrate"
   },
   "dependencies": {

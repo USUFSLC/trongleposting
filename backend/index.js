@@ -12,6 +12,7 @@ const io = socketio(server, {
 });
 
 io.on("connection", async (socket) => {
+  console.log("New client connected");
   socket.emit("initial-posts", (await Post.findAll()));
   socket.on("new-post", async (message) => {
     await Post.create(message).then((x) => {
@@ -24,6 +25,6 @@ io.on("connection", async (socket) => {
   });
 });
 
-const host = process.env.HOST || 'localhost';
+const host = process.env.HOST || '0.0.0.0';
 const port = process.env.PORT || '8000';
 server.listen(port, host, () => console.log(`Listening on http://${host}:${port}/`));

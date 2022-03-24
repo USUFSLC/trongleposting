@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from "react";
 import socketIOClient from "socket.io-client";
 import { generateGruvboxFromString } from "./utils/generate_gruvbox";
 import './App.css';
-const ENDPOINT = process.env.ENDPOINT || "ws://localhost:8000";
 
 function App() {
   const [socket, setSocket] = useState(null);
@@ -19,7 +18,7 @@ function App() {
   }  
 
   useEffect(() => {
-    const socket = socketIOClient(ENDPOINT);
+    const socket = socketIOClient({ path: "/socket.io" });
     socket.on("initial-posts", (data) => {
       postsRef.current = data;
       setPosts(postsRef.current);
@@ -62,7 +61,7 @@ function App() {
       </div>
       <div>
         <input placeholder={"Username"} className="input" style={{color}} onChange={(e) => setUsername(e.target.value)} value={username}></input>
-        <textarea placeholder={"Message"} className="input" onChange={(e) => setContent(e.target.value)} value={content} rows={1} cols={50}></textarea>
+        <textarea placeholder={"Message"} className="input" onChange={(e) => setContent(e.target.value)} value={content} rows={1} cols={30}></textarea>
         <div className="button" onClick={addPost}>Post</div>
         {error ? <p>{error}</p> : null}
       </div>
