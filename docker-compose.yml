@@ -41,12 +41,25 @@ services:
       - "3000:3000"
     env_file:
       - .env
+  ssh-client:
+    build:
+      context: ./ssh-client
+      dockerfile: Dockerfile
+    networks:
+      - sochat
+    ports:
+      - "2222:22"
+    volumes:
+      - ./ssh-client:/app
   nginx:
     build: ./nginx
     ports:
       - "80:80"
     networks:
       - sochat
+    depends_on:
+      - frontend
+      - backend
 
 volumes:
   pgdata:
