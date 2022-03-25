@@ -13,7 +13,12 @@ const io = socketio(server, {
 
 io.on("connection", async (socket) => {
   console.log("New client connected");
-  socket.emit("initial-posts", (await Post.findAll()));
+  socket.emit("initial-posts", (await Post.findAll({
+    limit: 150,
+    order: [
+      ['id', 'DESC']
+    ]
+  })));
   socket.on("new-post", async (message) => {
     await Post.create(message).then((x) => {
       io.sockets.emit("post-added", x.dataValues);
