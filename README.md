@@ -1,6 +1,6 @@
-# Sochat
+# trongleposting
 
-Sochat is socket chat.
+Trongleposting is websocket chat.
 
 Built to show off the power of Docker in a presentation!
 
