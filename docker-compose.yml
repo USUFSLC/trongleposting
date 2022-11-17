@@ -13,7 +13,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.01'
+          cpus: '0.05'
           memory: 100M
 
   backend:
@@ -27,11 +27,11 @@ services:
       - sochat
     depends_on:
       - db
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: '0.03'
-#          memory: 100M
+    deploy:
+      resources:
+        limits:
+          cpus: '0.05'
+          memory: 200M
       
 
   frontend:
@@ -45,11 +45,11 @@ services:
       - "1337:80"
     depends_on:
       - backend
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: '0.03'
-#          memory: 100M
+    deploy:
+      resources:
+        limits:
+          cpus: '0.02'
+          memory: 100M
 
   ssh-client:
     build:
@@ -61,11 +61,11 @@ services:
       - backend
     ports:
       - "2222:22"
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: '0.01'
-#          memory: 50M
+    deploy:
+      resources:
+        limits:
+          cpus: '0.01'
+          memory: 100M
   
 volumes:
   pgdata:
