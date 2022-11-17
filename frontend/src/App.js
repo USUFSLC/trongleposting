@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import socketIOClient from "socket.io-client";
 import { generateGruvboxFromString } from "./utils/generate_gruvbox";
-import './App.css';
+import "./App.css";
 
 function App() {
   const [socket, setSocket] = useState(null);
@@ -13,9 +13,9 @@ function App() {
   const [color, setColor] = useState("");
 
   const scrollToBottomOfChat = () => {
-    const objDiv = document.getElementById('chat');
+    const objDiv = document.getElementById("chat");
     objDiv.scrollTop = objDiv.scrollHeight;
-  }  
+  };
 
   useEffect(() => {
     const socket = socketIOClient({ path: "/socket.io" });
@@ -47,26 +47,50 @@ function App() {
     if (socket) {
       socket.emit("new-post", {
         username,
-        content
+        content,
       });
     }
     setContent("");
-  }
+  };
 
   return (
-    <div className="container" style={{border: `1px solid ${color}`}}>
-      <div style={{textAlign: "center"}}>
+    <div className="container" style={{ border: `1px solid ${color}` }}>
+      <div style={{ textAlign: "center" }}>
         <h2>TronglePosting</h2>
       </div>
       <div id="chat" className="chat">
         <p>Welcome!</p>
-        {posts.map((post) => <div key={post.id} style={{lineBreak: "normal"}}><span style={{color: generateGruvboxFromString(post.username)}}>{post.username}: </span><span>{post.content}</span></div>)}
+        {posts.map((post) => (
+          <div key={post.id} style={{ lineBreak: "normal" }}>
+            <span style={{ color: generateGruvboxFromString(post.username) }}>
+              {post.username}:{" "}
+            </span>
+            <span>{post.content}</span>
+          </div>
+        ))}
       </div>
       <div>
-        <input placeholder={"Username"} className="input" style={{color}} onChange={(e) => {setUsername(e.target.value)}} value={username}></input>
-        <textarea placeholder={"Message"} className="input" onChange={(e) => setContent(e.target.value)} value={content} rows={1} cols={30}></textarea>
-        <div className="button" onClick={addPost}>Post</div>
-        {error ? <p style="color:red">{error}</p> : null}
+        <input
+          placeholder={"Username"}
+          className="input"
+          style={{ color }}
+          onChange={(e) => {
+            setUsername(e.target.value);
+          }}
+          value={username}
+        ></input>
+        <textarea
+          placeholder={"Message"}
+          className="input"
+          onChange={(e) => setContent(e.target.value)}
+          value={content}
+          rows={1}
+          cols={30}
+        ></textarea>
+        <div className="button" onClick={addPost}>
+          Post
+        </div>
+        {error ? <p style={{ color: "red" }}>{error}</p> : null}
       </div>
     </div>
   );
