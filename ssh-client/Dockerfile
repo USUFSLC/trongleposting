@@ -6,12 +6,14 @@ COPY . /app
 RUN apk add --no-cache \ 
         gcc openssh python3 python3-dev py-pip musl-dev \
     && ssh-keygen -A \
-    && adduser -D -G wheel -s /app/client.py -h /home/chatter -u 1000 chatter 
+    && adduser -D -G wheel -s /app/client.py -h /home/trongle -u 1000 trongle 
+
+RUN rm /etc/motd
+
 RUN pip install -r /app/requirements.txt
 
-COPY --chown=chatter:wheel ./chatter_authorized_keys /home/chatter/.ssh/authorized_keys
-
-RUN echo "chatter:chatter" | chpasswd
+RUN chown trongle /app/client.py
+RUN echo "trongle:trongle" | chpasswd
 
 EXPOSE 22
 

@@ -5,11 +5,7 @@ const Post = require('./models').Post;
 
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server, {
-  cors: {
-    origin: "*",
-  }
-});
+const io = socketio(server);
 
 io.on("connection", async (socket) => {
   console.log("New client connected");
