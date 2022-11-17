@@ -16,7 +16,7 @@ io.on("connection", async (socket) => {
   socket.emit("initial-posts", (await Post.findAll({
     limit: 150,
     order: [
-      ['id', 'DESC']
+      ['id', 'ASC']
     ]
   })));
   socket.on("new-post", async (message) => {

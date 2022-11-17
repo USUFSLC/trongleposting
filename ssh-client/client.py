@@ -16,7 +16,6 @@ def main(stdscr):
     console.writeWithColor(message['username'] + ': ', getGruvboxColor(message['username']))
     console.addline(message["content"])
 
-    
   @sio.on('initial-posts')
   def on_initial_posts(data):
     for message in data:

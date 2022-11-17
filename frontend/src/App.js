@@ -56,7 +56,7 @@ function App() {
   return (
     <div className="container" style={{border: `1px solid ${color}`}}>
       <div style={{textAlign: "center"}}>
-        <h2>FSLC DarkWeb Chat</h2>
+        <h2>TronglePosting</h2>
       </div>
       <div id="chat" className="chat">
         <p>Welcome!</p>
@@ -66,7 +66,7 @@ function App() {
         <input placeholder={"Username"} className="input" style={{color}} onChange={(e) => {setUsername(e.target.value)}} value={username}></input>
         <textarea placeholder={"Message"} className="input" onChange={(e) => setContent(e.target.value)} value={content} rows={1} cols={30}></textarea>
         <div className="button" onClick={addPost}>Post</div>
-        {error ? <p>{error}</p> : null}
+        {error ? <p style="color:red">{error}</p> : null}
       </div>
     </div>
   );

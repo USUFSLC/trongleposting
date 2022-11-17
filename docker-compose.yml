@@ -1,66 +1,54 @@
 version: '3'
 
 services:
-  backend:
-    container_name: backend
-    build:
-      dockerfile: Dockerfile
-      context: "./backend"
-    networks:
-      - sochat
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
-    env_file:
-      - .env
-    depends_on:
-      - db
-    ports:
-      - "8000:8000"
   db:
     container_name: db
-    image: 'postgres:13'
+    image: "postgres:13"
     env_file:
       - .env
     networks:
       - sochat
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-  frontend:
+
+  backend:
+    container_name: backend
     build:
-      context: ./frontend
       dockerfile: Dockerfile
-    networks:
-      - sochat
-    volumes:
-      - /app/node_modules
-      - ./frontend:/app
-    ports:
-      - "3000:3000"
+      context: "./backend"
     env_file:
       - .env
+    networks:
+      - sochat
+    depends_on:
+      - db
+    expose:
+      - "5000"
+      
+
+  frontend:
+    container_name: frontend
+    networks:
+      - sochat
+    build:
+      context: "./frontend"
+      dockerfile: Dockerfile
+    ports:
+      - "1337:80"
+    depends_on:
+      - backend
+
   ssh-client:
     build:
       context: ./ssh-client
       dockerfile: Dockerfile
     networks:
       - sochat
+    depends_on:
+      - backend
     ports:
       - "2222:22"
-    volumes:
-      - ./ssh-client:/app
-  nginx:
-    build: ./nginx
-    ports:
-      - "80:80"
-    networks:
-      - sochat
-    depends_on:
-      - frontend
-      - backend
-
+  
 volumes:
   pgdata:
 

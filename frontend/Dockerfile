@@ -1,11 +1,18 @@
-FROM node:14.17.1-buster-slim
-
-EXPOSE 3000
+FROM node:16-alpine as build
 
 WORKDIR /app
+COPY . /app/
 
-COPY . /app
+# prepare for build
+RUN npm install --silent
+RUN npm run build
 
-RUN npm ci
+# prepare nginx
+FROM nginx
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/
+COPY --from=build app/build /usr/share/nginx/html 
 
-CMD ["npm", "run-script", "start"]
+# start nginx
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
