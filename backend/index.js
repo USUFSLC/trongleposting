@@ -4,11 +4,14 @@ const socketio = require('socket.io');
 const Post = require('./models').Post;
 
 const app = express();
+app.get("/health", (_req, res) => {
+  res.send("healthy");
+});
+
 const server = http.createServer(app);
 const io = socketio(server);
 
 io.on("connection", async (socket) => {
-  console.log("New client connected");
   socket.emit("initial-posts", (await Post.findAll({
     limit: 150,
     order: [

@@ -2,6 +2,7 @@ version: '3'
 
 services:
   db:
+    restart: always
     container_name: db
     image: "postgres:13"
     env_file:
@@ -13,10 +14,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.05'
-          memory: 100M
+          cpus: '0.10'
+          memory: 300M
 
   backend:
+    restart: always
     container_name: backend
     build:
       dockerfile: Dockerfile
@@ -30,11 +32,12 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.05'
-          memory: 200M
+          cpus: '0.15'
+          memory: 400M
       
 
   frontend:
+    restart: always
     container_name: frontend
     networks:
       - sochat
@@ -52,6 +55,7 @@ services:
           memory: 100M
 
   ssh-client:
+    restart: always
     build:
       context: ./ssh-client
       dockerfile: Dockerfile
@@ -64,8 +68,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.01'
-          memory: 100M
+          cpus: '0.05'
+          memory: 200M
   
 volumes:
   pgdata:
